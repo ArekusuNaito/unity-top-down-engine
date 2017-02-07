@@ -1,0 +1,22 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2015
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "unity-top-down-movement", "unity-top-down-movement.csproj", "{504AC7BB-E395-1851-2BA6-BF55266291E8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "unity-top-down-movement.Editor", "unity-top-down-movement.Editor.csproj", "{4924169C-E8FC-E5D5-3613-78FD38E002BE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{504AC7BB-E395-1851-2BA6-BF55266291E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{504AC7BB-E395-1851-2BA6-BF55266291E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{504AC7BB-E395-1851-2BA6-BF55266291E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{504AC7BB-E395-1851-2BA6-BF55266291E8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4924169C-E8FC-E5D5-3613-78FD38E002BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4924169C-E8FC-E5D5-3613-78FD38E002BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4924169C-E8FC-E5D5-3613-78FD38E002BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4924169C-E8FC-E5D5-3613-78FD38E002BE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
