@@ -4,6 +4,13 @@ using UnityEngine;
 
 public class Player : MonoBehaviour {
 
+	struct Facing
+	{
+		public static int UP = 0;
+		public static int DOWN = 1;
+		public static int LEFT = 2;
+		public static int RIGHT = 3;
+	}
 	Rigidbody2D body;
 	Animator animator;
 	public float speed = 1;
@@ -11,7 +18,7 @@ public class Player : MonoBehaviour {
 	Vector2 axisInput;
 	Collider2D boxCollider;
 	bool canGetInput = true;
-	int facing=1;
+	int facing=Facing.DOWN;
 	// float skinWidth = 0.016f;
 
 	/// <summary>
@@ -44,39 +51,50 @@ public class Player : MonoBehaviour {
 		// if((Vector2)transform.position == (Vector2)(transform.position)+destination)
 		if(canGetInput)
 		{
-			if(axisInput.x>0 && !collides(Vector2.right))
+			if(axisInput.y>0)
 			{
-				facing=3;
-				canGetInput=false;
-				animator.SetInteger("facing",3);
-				animator.SetFloat("speed",1);
-				destination = (Vector2)transform.position+Vector2.right;
+				facing=Facing.UP;
+				if(!collides(Vector2.up))
+				{
+					canGetInput=false;
+					animator.SetFloat("speed",1);
+					destination = (Vector2)transform.position+Vector2.up;
+				}
 			}
-			if(axisInput.x<0 && !collides(Vector2.left))
+			if(axisInput.y<0)
 			{
-				facing=2;
-				canGetInput=false;
-				animator.SetInteger("facing",2);
-				animator.SetFloat("speed",1);
-				destination = (Vector2)transform.position+Vector2.left;
+				facing=Facing.DOWN;
+				if(!collides(Vector2.down))
+				{
+					canGetInput=false;
+					animator.SetFloat("speed",1);
+					destination = (Vector2)transform.position+Vector2.down;
+				}
+
 			}
-			if(axisInput.y>0 && !collides(Vector2.up))
+			if(axisInput.x<0)
 			{
-				facing=0;
-				canGetInput=false;
-				animator.SetInteger("facing",0);
-				animator.SetFloat("speed",1);
-				destination = (Vector2)transform.position+Vector2.up;
+				facing=Facing.LEFT;
+				if(!collides(Vector2.left))
+				{
+					canGetInput=false;
+					animator.SetFloat("speed",1);
+					destination = (Vector2)transform.position+Vector2.left;
+				}
+
 			}
-			if(axisInput.y<0 && !collides(Vector2.down))
+			if(axisInput.x>0)
 			{
-				facing=1;
-				canGetInput=false;
-				animator.SetInteger("facing",1);
-				animator.SetFloat("speed",1);
-				destination = (Vector2)transform.position+Vector2.down;
+				facing=Facing.RIGHT;
+				if(!collides(Vector2.right))
+				{
+					canGetInput=false;
+					animator.SetFloat("speed",1);
+					destination = (Vector2)transform.position+Vector2.right;
+				}	
 			}
 		}
+		animator.SetInteger("facing",facing);
 		move();
 	}
 
