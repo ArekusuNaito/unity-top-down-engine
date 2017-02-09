@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: 8c052d013d385ce4683fe80169fd121e
+timeCreated: 1486579576
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Reactor7
+  fontNames:
+  - Reactor7
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -84,7 +84,18 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\Player.cs" />
+    <ProjectReference Include="unity-top-down-movement.Plugins.csproj">
+      <Project>{66BABA4C-8E8C-5579-28CE-74FD1C4A8F41}</Project>
+      <Name>unity-top-down-movement.Plugins</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Assets\NPC.cs" />
+    <Compile Include="Assets\Resources\DialogueBox\DialogueBox.cs" />
+    <Compile Include="Assets\Resources\Masters\GameMaster.cs" />
+    <Compile Include="Assets\Resources\Masters\HUDMaster.cs" />
+    <Compile Include="Assets\Resources\Masters\SoundMaster.cs" />
+    <Compile Include="Assets\Resources\Player\Player.cs" />
     <Compile Include="Assets\Tiled2Unity\Scripts\Runtime\ImportBehaviour.cs" />
     <Compile Include="Assets\Tiled2Unity\Scripts\Runtime\Layer.cs" />
     <Compile Include="Assets\Tiled2Unity\Scripts\Runtime\ObjectLayer.cs" />

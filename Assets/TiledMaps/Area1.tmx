@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="left-up" width="18" height="11" tilewidth="16" tileheight="16" nextobjectid="1">
+<map version="1.0" orientation="orthogonal" renderorder="left-up" width="18" height="11" tilewidth="16" tileheight="16" nextobjectid="3">
  <tileset firstgid="1" name="tileset" tilewidth="16" tileheight="16" tilecount="1120" columns="28">
   <image source="../../../../../Superpowers HTML5/superpowers-asset-packs-master/ninja-adventure/background-elements/tileset.png" width="448" height="640"/>
   <tile id="905">
@@ -43,7 +43,7 @@
 906,906,906,906,906,906,906,906,906,906,906,906,906,906,906,906,906,906,
 906,0,0,0,906,0,0,0,0,0,0,0,906,0,0,0,0,906,
 906,0,0,0,906,0,0,0,0,0,0,0,906,0,0,0,906,906,
-906,906,906,906,906,0,0,0,0,906,0,0,906,906,906,906,0,906,
+906,906,906,906,906,0,0,0,0,0,0,0,906,906,906,906,0,906,
 906,0,0,0,0,0,0,0,906,0,906,0,0,0,0,0,0,906,
 906,906,906,0,0,0,0,0,0,0,0,0,0,0,0,0,0,906,
 906,0,906,0,0,0,0,0,0,0,0,0,0,0,0,0,0,906,
@@ -53,4 +53,11 @@
 906,906,906,906,906,906,906,906,906,906,906,906,906,906,906,906,906,906
 </data>
  </layer>
+ <objectgroup name="Events">
+  <object id="2" name="Tanooki" x="144" y="48" width="16" height="16">
+   <properties>
+    <property name="unity:tag" value="NPC"/>
+   </properties>
+  </object>
+ </objectgroup>
 </map>

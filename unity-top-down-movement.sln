@@ -1,5 +1,7 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2015
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "unity-top-down-movement.Plugins", "unity-top-down-movement.Plugins.csproj", "{66BABA4C-8E8C-5579-28CE-74FD1C4A8F41}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "unity-top-down-movement", "unity-top-down-movement.csproj", "{504AC7BB-E395-1851-2BA6-BF55266291E8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "unity-top-down-movement.Editor", "unity-top-down-movement.Editor.csproj", "{4924169C-E8FC-E5D5-3613-78FD38E002BE}"
@@ -10,6 +12,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{66BABA4C-8E8C-5579-28CE-74FD1C4A8F41}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{66BABA4C-8E8C-5579-28CE-74FD1C4A8F41}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{66BABA4C-8E8C-5579-28CE-74FD1C4A8F41}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{66BABA4C-8E8C-5579-28CE-74FD1C4A8F41}.Release|Any CPU.Build.0 = Release|Any CPU
 		{504AC7BB-E395-1851-2BA6-BF55266291E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{504AC7BB-E395-1851-2BA6-BF55266291E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{504AC7BB-E395-1851-2BA6-BF55266291E8}.Release|Any CPU.ActiveCfg = Release|Any CPU

@@ -6,10 +6,10 @@ public class Player : MonoBehaviour {
 
 	struct Facing
 	{
-		public static int UP = 0;
-		public static int DOWN = 1;
-		public static int LEFT = 2;
-		public static int RIGHT = 3;
+		public const int UP = 0;
+		public const int DOWN = 1;
+		public const int LEFT = 2;
+		public const int RIGHT = 3;
 	}
 	Rigidbody2D body;
 	Animator animator;
@@ -94,6 +94,30 @@ public class Player : MonoBehaviour {
 				}	
 			}
 		}
+		if(Input.GetKeyDown(KeyCode.Z))
+		{
+			Vector2 direction = Vector2.zero;
+			switch(facing)
+			{
+				case Facing.UP: direction=Vector2.up; 
+				break;
+				case Facing.DOWN: direction=Vector2.down; 
+				break;
+				case Facing.LEFT: direction=Vector2.left; 
+				break;
+				case Facing.RIGHT: direction=Vector2.right; 
+				break;
+
+			}
+			Vector2 targetPosition = (Vector2)transform.position+direction;
+			RaycastHit2D hit = Physics2D.Linecast(targetPosition,transform.position);
+			if(hit && hit.transform.tag =="NPC")
+			{
+				NPC npc = hit.transform.GetComponent<NPC>();
+				GameMaster.startConversation(npc.conversationKey);
+			}
+			
+		}
 		animator.SetInteger("facing",facing);
 		move();
 	}
@@ -104,8 +128,8 @@ public class Player : MonoBehaviour {
 		Vector2 p = Vector2.MoveTowards(transform.position,destination, speed);
 		if((Vector2)transform.position == destination)
 		{
-			if(axisInput.x==0 && (facing==2 || facing == 3))animator.SetFloat("speed",0);
-			if(axisInput.y==0 && (facing==0 || facing == 1))animator.SetFloat("speed",0);
+			if(axisInput.x==0 && (facing==Facing.LEFT || facing == Facing.RIGHT))animator.SetFloat("speed",0);
+			if(axisInput.y==0 && (facing==Facing.UP || facing == Facing.DOWN))animator.SetFloat("speed",0);
 			
 			// if(axisInput.x == 0 || axisInput.y == 0)animator.SetFloat("speed",0);
 			canGetInput=true;
