@@ -111,6 +111,12 @@ public class Player : MonoBehaviour {
 			}
 			Vector2 targetPosition = (Vector2)transform.position+direction;
 			RaycastHit2D hit = Physics2D.Linecast(targetPosition,transform.position);
+			if(hit)
+			{
+				print(hit.transform.name);
+				print(hit.distance);
+				print(hit.point);
+			}
 			if(hit && hit.transform.tag =="NPC")
 			{
 				NPC npc = hit.transform.GetComponent<NPC>();

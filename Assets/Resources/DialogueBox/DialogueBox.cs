@@ -13,6 +13,8 @@ public class DialogueBox : MonoBehaviour {
 	public AudioClip lastDialogueEndSFX;
 	public AudioClip conversationEndSFX;
 	public float lettersBySecond = 0.3f;
+	public int letterSFXInterval=1;//How many letters does we skip to play a sound
+	int skipLetterCount=0;
 	public string [] dialogues;
 	// public JSONNode dialogues;
 
@@ -57,7 +59,9 @@ public class DialogueBox : MonoBehaviour {
 	void Start () 
 	{
 		dialogue  = dialogues[0]; //take the first dialogue
-		// StartCoroutine(drawDialogue());
+		print("Dialogue Length:"+dialogue.Length);
+		StartCoroutine(drawDialogue());
+		
 	}
 	
 	// Update is called once per frame
@@ -65,44 +69,62 @@ public class DialogueBox : MonoBehaviour {
 	{
 		inputCheck();
 		checkIfDialogueEnded();
-		if(!dialogueEnded)
-		{
-			timer+=Time.deltaTime;
-			if(timer>=lettersBySecond)
-			{
-				drawNextLetter();
-				timer=0;
-			}
-		}
+		// if(!dialogueEnded)
+		// {
+		// 	timer+=Time.deltaTime;
+		// 	if(timer>=lettersBySecond)
+		// 	{
+		// 		print(lettersBySecond>Time.deltaTime);
+		// 		drawNextLetter();
+		// 		timer=0;
+		// 	}
+		// }
 		
 	}
 
-	// IEnumerator drawDialogue()
-	// {
+	IEnumerator drawDialogue()
+	{
 		
-	// 	// checkIfDialogueEnded();
-	// 	// if(!dialogueEnded)
-	// 	// {
-	// 	// 	timer+=Time.deltaTime;
-	// 	// 	if(timer>=lettersBySecond)
-	// 	// 	{
-	// 	// 		drawNextLetter();
-	// 	// 		timer=0;
-	// 	// 	}
-	// 	// }
-	// }
+		for(int drawTimes=0;drawTimes<dialogue.Length;drawTimes++)
+		{
+			drawNextLetter();
+			yield return new WaitForSecondsRealtime(lettersBySecond); //Realtime allows UI to be drawed normally if we change time.scale
+		}
+		// print(dialogue.Length+" = "+lettersBySecond*dialogue.Length+" : "+Time.time);
+	}
 
 	void drawNextLetter()
 	{
-		SoundMaster.playSFX(this.letterSFX);
-		dialogueUI.text = dialogue.Substring(0,letterIndex);
+		
+		if(!isSilentCharacter())
+		{
+			//You can go ahead and make some noise, playing the letterSFX
+			skipLetterCount++;
+			if(skipLetterCount>letterSFXInterval)
+			{
+				SoundMaster.playSFX(this.letterSFX);
+				skipLetterCount=0;
+			}
+		}
 		letterIndex++;
+		dialogueUI.text = dialogue.Substring(0,letterIndex);
+		
+	}
+
+	bool isSilentCharacter()
+	{
+		char character = dialogue[letterIndex];
+		if(character==' ' || character=='\n')
+		{
+			return true;
+		}
+		return false;
 	}
 
 	bool checkIfDialogueEnded()
 	{
 		if(dialogueEnded)return true;
-		if(letterIndex>dialogue.Length)
+		if(letterIndex>=dialogue.Length)
 		{
 			onDialogueEnd();
 			return true;
@@ -132,12 +154,14 @@ public class DialogueBox : MonoBehaviour {
 			
 			if(dialogueEnded && !conversationEnded)
 			{
+				print("next dialogue");
 				cursor.enabled=false;
 				SoundMaster.playSFX(dialogueEndSFX);
 				letterIndex=0;
 				dialogueIndex++;
 				dialogue=dialogues[dialogueIndex];
 				dialogueEnded=false;
+				StartCoroutine(drawDialogue());
 			}
 			else if(conversationEnded)
 			{

@@ -1,37 +1,37 @@
 fileFormatVersion: 2
 guid: 672265b3090bcb642a1cc487dadf53d5
-timeCreated: 1486470181
+timeCreated: 1486733539
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: 18_0
-    21300002: 18_1
-    21300004: 18_2
-    21300006: 18_3
-    21300008: 18_4
-    21300010: 18_5
-    21300012: 18_6
-    21300014: 18_7
-    21300016: 18_8
-    21300018: 18_9
-    21300020: 18_10
-    21300022: 18_11
-    21300024: 18_12
-    21300026: 18_13
-    21300028: 18_14
-    21300030: 18_15
-    21300032: 18_16
-    21300034: 18_17
-    21300036: 18_18
-    21300038: 18_19
-    21300040: 18_20
-    21300042: 18_21
-    21300044: 18_22
-    21300046: 18_23
-    21300048: 18_24
-    21300050: 18_25
-    21300052: 18_26
-    21300054: 18_27
+    21300000: PlayerSprite_0
+    21300002: PlayerSprite_1
+    21300004: PlayerSprite_2
+    21300006: PlayerSprite_3
+    21300008: PlayerSprite_4
+    21300010: PlayerSprite_5
+    21300012: PlayerSprite_6
+    21300014: PlayerSprite_7
+    21300016: PlayerSprite_8
+    21300018: PlayerSprite_9
+    21300020: PlayerSprite_10
+    21300022: PlayerSprite_11
+    21300024: PlayerSprite_12
+    21300026: PlayerSprite_13
+    21300028: PlayerSprite_14
+    21300030: PlayerSprite_15
+    21300032: PlayerSprite_16
+    21300034: PlayerSprite_17
+    21300036: PlayerSprite_18
+    21300038: PlayerSprite_19
+    21300040: PlayerSprite_20
+    21300042: PlayerSprite_21
+    21300044: PlayerSprite_22
+    21300046: PlayerSprite_23
+    21300048: PlayerSprite_24
+    21300050: PlayerSprite_25
+    21300052: PlayerSprite_26
+    21300054: PlayerSprite_27
   serializedVersion: 4
   mipmaps:
     mipMapMode: 0
@@ -122,7 +122,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: 18_0
+      name: PlayerSprite_0
       rect:
         serializedVersion: 2
         x: 0
@@ -135,7 +135,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: 18_1
+      name: PlayerSprite_1
       rect:
         serializedVersion: 2
         x: 16
@@ -148,7 +148,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: 18_2
+      name: PlayerSprite_2
       rect:
         serializedVersion: 2
         x: 32
@@ -161,7 +161,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: 18_3
+      name: PlayerSprite_3
       rect:
         serializedVersion: 2
         x: 48
@@ -174,7 +174,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: 18_4
+      name: PlayerSprite_4
       rect:
         serializedVersion: 2
         x: 0
@@ -187,7 +187,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: 18_5
+      name: PlayerSprite_5
       rect:
         serializedVersion: 2
         x: 16
@@ -200,7 +200,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: 18_6
+      name: PlayerSprite_6
       rect:
         serializedVersion: 2
         x: 32
@@ -213,7 +213,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: 18_7
+      name: PlayerSprite_7
       rect:
         serializedVersion: 2
         x: 48
@@ -226,7 +226,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: 18_8
+      name: PlayerSprite_8
       rect:
         serializedVersion: 2
         x: 0
@@ -239,7 +239,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: 18_9
+      name: PlayerSprite_9
       rect:
         serializedVersion: 2
         x: 16
@@ -252,7 +252,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: 18_10
+      name: PlayerSprite_10
       rect:
         serializedVersion: 2
         x: 32
@@ -265,7 +265,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: 18_11
+      name: PlayerSprite_11
       rect:
         serializedVersion: 2
         x: 48
@@ -278,7 +278,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: 18_12
+      name: PlayerSprite_12
       rect:
         serializedVersion: 2
         x: 0
@@ -291,7 +291,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: 18_13
+      name: PlayerSprite_13
       rect:
         serializedVersion: 2
         x: 16
@@ -304,7 +304,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: 18_14
+      name: PlayerSprite_14
       rect:
         serializedVersion: 2
         x: 32
@@ -317,7 +317,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: 18_15
+      name: PlayerSprite_15
       rect:
         serializedVersion: 2
         x: 48
@@ -330,7 +330,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: 18_16
+      name: PlayerSprite_16
       rect:
         serializedVersion: 2
         x: 0
@@ -343,7 +343,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: 18_17
+      name: PlayerSprite_17
       rect:
         serializedVersion: 2
         x: 16
@@ -356,7 +356,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: 18_18
+      name: PlayerSprite_18
       rect:
         serializedVersion: 2
         x: 32
@@ -369,7 +369,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: 18_19
+      name: PlayerSprite_19
       rect:
         serializedVersion: 2
         x: 48
@@ -382,7 +382,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: 18_20
+      name: PlayerSprite_20
       rect:
         serializedVersion: 2
         x: 0
@@ -395,7 +395,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: 18_21
+      name: PlayerSprite_21
       rect:
         serializedVersion: 2
         x: 16
@@ -408,7 +408,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: 18_22
+      name: PlayerSprite_22
       rect:
         serializedVersion: 2
         x: 32
@@ -421,7 +421,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: 18_23
+      name: PlayerSprite_23
       rect:
         serializedVersion: 2
         x: 48
@@ -434,7 +434,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: 18_24
+      name: PlayerSprite_24
       rect:
         serializedVersion: 2
         x: 0
@@ -447,7 +447,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: 18_25
+      name: PlayerSprite_25
       rect:
         serializedVersion: 2
         x: 16
@@ -460,7 +460,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: 18_26
+      name: PlayerSprite_26
       rect:
         serializedVersion: 2
         x: 32
@@ -473,7 +473,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: 18_27
+      name: PlayerSprite_27
       rect:
         serializedVersion: 2
         x: 48

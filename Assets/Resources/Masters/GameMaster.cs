@@ -11,6 +11,7 @@ public class GameMaster : MonoBehaviour {
 
 	public static void startConversation(string conversationKey)
 	{
+		
 		if(!onConversation)
 		{
 			onConversation=true;
