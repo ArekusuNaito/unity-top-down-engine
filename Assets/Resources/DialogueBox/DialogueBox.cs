@@ -48,7 +48,7 @@ public class DialogueBox : MonoBehaviour {
 	void Awake()
 	{
 		//Get components
-		loadExternalMethods();
+		
 		dialogueUI = GetComponentInChildren<Text>();
 		dialogueUI.font = font;
 		lookForImageComponents();
@@ -74,6 +74,7 @@ public class DialogueBox : MonoBehaviour {
 	// Use this for initialization
 	void Start () 
 	{
+		loadExternalMethods();
 		dialogue  = dialogues[0]; //take the first dialogue
 		// print("Dialogue Length:"+dialogue.Length);
 		StartCoroutine(drawDialogue());
@@ -170,7 +171,6 @@ public class DialogueBox : MonoBehaviour {
 			}
 			else if(conversationEnded)
 			{
-
 				playSFX(conversationEndSFX);
 				endConversation();
 			}

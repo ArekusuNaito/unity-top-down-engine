@@ -36,7 +36,7 @@ public class Event : MonoBehaviour
 	public void endConversation()
 	{
 		onConversation=false;
-		destroyDialogueBox(dialogueBox);
+		destroyDialogueBox(this.dialogueBox);
 	}
 	
 //##############################################################################
@@ -61,6 +61,7 @@ public class Event : MonoBehaviour
 	{
 		conversations = Game.conversations;
 		createDialogueBox = Game.HUD.createDialogueBox;
+		destroyDialogueBox = Game.HUD.destroyDialogueBox;
 	}
 
 	void Start()
