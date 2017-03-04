@@ -1,8 +1,7 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using SimpleJSON;
+using System;
 
 public class DialogueBox : MonoBehaviour {
 
@@ -31,15 +30,31 @@ public class DialogueBox : MonoBehaviour {
 	bool dialogueEnded = false;
 	bool conversationEnded = false;
 
+//##############################################################################
+//#### External Methods
+//##############################################################################
+	Action<AudioClip> playSFX;
+
+
+	void getExternalMethods()
+	{
+		playSFX = Game.Sound.playSFX;
+	}
 	/// <summary>
 	/// Awake is called when the script instance is being loaded.
 	/// </summary>
 	void Awake()
 	{
 		//Get components
+		getExternalMethods();
 		dialogueUI = GetComponentInChildren<Text>();
 		dialogueUI.font = font;
-		// dialogue  = dialogues[0];
+		lookForImageComponents();
+		
+	}
+
+	void lookForImageComponents()
+	{
 		Image [] images = GetComponentsInChildren<Image>();
 		foreach(Image image in images)
 		{
@@ -52,14 +67,13 @@ public class DialogueBox : MonoBehaviour {
 				cursor = image;
 			}
 		}
-		
 	}
 
 	// Use this for initialization
 	void Start () 
 	{
 		dialogue  = dialogues[0]; //take the first dialogue
-		print("Dialogue Length:"+dialogue.Length);
+		// print("Dialogue Length:"+dialogue.Length);
 		StartCoroutine(drawDialogue());
 		
 	}
@@ -68,18 +82,7 @@ public class DialogueBox : MonoBehaviour {
 	void Update () 
 	{
 		inputCheck();
-		checkIfDialogueEnded();
-		// if(!dialogueEnded)
-		// {
-		// 	timer+=Time.deltaTime;
-		// 	if(timer>=lettersBySecond)
-		// 	{
-		// 		print(lettersBySecond>Time.deltaTime);
-		// 		drawNextLetter();
-		// 		timer=0;
-		// 	}
-		// }
-		
+		checkIfDialogueEnded();		
 	}
 
 	IEnumerator drawDialogue()
@@ -102,7 +105,7 @@ public class DialogueBox : MonoBehaviour {
 			skipLetterCount++;
 			if(skipLetterCount>letterSFXInterval)
 			{
-				SoundMaster.playSFX(this.letterSFX);
+				playSFX(this.letterSFX);
 				skipLetterCount=0;
 			}
 		}
@@ -156,7 +159,7 @@ public class DialogueBox : MonoBehaviour {
 			{
 				print("next dialogue");
 				cursor.enabled=false;
-				SoundMaster.playSFX(dialogueEndSFX);
+				playSFX(dialogueEndSFX);
 				letterIndex=0;
 				dialogueIndex++;
 				dialogue=dialogues[dialogueIndex];
@@ -166,8 +169,8 @@ public class DialogueBox : MonoBehaviour {
 			else if(conversationEnded)
 			{
 
-				SoundMaster.playSFX(conversationEndSFX);
-				GameMaster.endConversation();
+				playSFX(conversationEndSFX);
+				Game.endConversation();
 			}
 		}
 		//Cancel Button
@@ -179,7 +182,7 @@ public class DialogueBox : MonoBehaviour {
 		if(conversationEnded)
 		{
 			playCursorAnimation("Next");
-			SoundMaster.playSFX(lastDialogueEndSFX); 
+			playSFX(lastDialogueEndSFX); 
 		}
 		else //then we still have dialogues
 		{

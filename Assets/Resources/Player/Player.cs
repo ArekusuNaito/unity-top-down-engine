@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
 
 public class Player : MonoBehaviour {
@@ -19,17 +18,31 @@ public class Player : MonoBehaviour {
 	Collider2D boxCollider;
 	bool canGetInput = true;
 	int facing=Facing.DOWN;
-	// float skinWidth = 0.016f;
+	
+
+//##############################################################################
+//#### External Methods
+//##############################################################################
+	Action<NPC> startConversation;
+
 
 	/// <summary>
 	/// Awake is called when the script instance is being loaded.
 	/// </summary>
 	void Awake()
 	{
+		getExternalMethods();
 		body = GetComponent<Rigidbody2D>();
 		boxCollider = GetComponent<BoxCollider2D>();
 		animator = GetComponent<Animator>();
 		destination = transform.position;
+		
+	}
+
+	void getExternalMethods()
+	{
+		startConversation = Game.startConversation;
+		
 	}
 
 	// Use this for initialization
@@ -39,7 +52,7 @@ public class Player : MonoBehaviour {
 	}
 	
 
-	void FixedUpdate()
+	void FixedUpdate() //cada  frame
 	{
 		inputCheck();
 
@@ -94,6 +107,13 @@ public class Player : MonoBehaviour {
 				}	
 			}
 		}
+		checkActionInput();
+		animator.SetInteger("facing",facing);
+		move();
+	}
+
+	void checkActionInput()
+	{
 		if(Input.GetKeyDown(KeyCode.Z))
 		{
 			Vector2 direction = Vector2.zero;
@@ -111,21 +131,30 @@ public class Player : MonoBehaviour {
 			}
 			Vector2 targetPosition = (Vector2)transform.position+direction;
 			RaycastHit2D hit = Physics2D.Linecast(targetPosition,transform.position);
-			if(hit)
-			{
-				print(hit.transform.name);
-				print(hit.distance);
-				print(hit.point);
-			}
-			if(hit && hit.transform.tag =="NPC")
-			{
-				NPC npc = hit.transform.GetComponent<NPC>();
-				GameMaster.startConversation(npc.conversationKey);
-			}
+			// if(hit)
+			// {
+			// 	print(hit.transform.name);
+			// 	print(hit.distance);
+			// 	print(hit.point);
+			// }
+			NPC npc = collidesWithNPC(hit);
+			if(npc)startConversation(npc);
+			//Player.startConversation() ====  Game.HUD.startConversation();
+
+			
 			
 		}
-		animator.SetInteger("facing",facing);
-		move();
+	}
+
+	NPC collidesWithNPC(RaycastHit2D hit)
+	{
+		if(hit && hit.transform.tag =="NPC")
+		{
+
+			NPC npc = hit.transform.GetComponent<NPC>();
+			return npc;
+		}
+		else return null;
 	}
 
 	void move()

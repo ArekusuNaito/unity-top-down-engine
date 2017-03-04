@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HUDMaster : MonoBehaviour {
+public class HUD : MonoBehaviour {
 
-	public static DialogueBox createDialogueBox(string [] dialogues)
+	public DialogueBox createDialogueBox(string [] dialogues)
 	{
 
 		GameObject dialogueBoxPrefab = Resources.Load<GameObject>("DialogueBox/DialogueBox");
@@ -16,29 +16,9 @@ public class HUDMaster : MonoBehaviour {
 	}
 	
 
-	public static void destroyDialogueBox(DialogueBox dialogueBox)
+	public void destroyDialogueBox(DialogueBox dialogueBox)
 	{
 		Destroy(dialogueBox.gameObject);
 	}
 
-	//Singleton code
-	public static HUDMaster instance = null;
-
-	void createSingleton()
-	{
-		if(instance == null)
-		{
-			instance = this;
-		}
-		else if(instance != this)
-		{
-			Destroy(this.gameObject);
-		}
-		DontDestroyOnLoad(gameObject);
-	}
-	void Awake () 
-	{
-		createSingleton();
-		
-	}
 }
