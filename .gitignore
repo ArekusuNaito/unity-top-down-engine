@@ -22,3 +22,6 @@ Thumbs.db
 Library/
 obj/
 Temp/
+*.meta
+*.csproj
+*.sln
