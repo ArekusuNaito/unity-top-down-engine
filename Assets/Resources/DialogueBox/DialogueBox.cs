@@ -183,12 +183,12 @@ public class DialogueBox : MonoBehaviour {
 		checkIfConversationEnded();
 		if(conversationEnded)
 		{
-			playCursorAnimation("Next");
+			playCursorAnimation("Done");
 			playSFX(lastDialogueEndSFX); 
 		}
 		else //then we still have dialogues
 		{
-			playCursorAnimation("Done");
+			playCursorAnimation("Next");
 			// SoundMaster.playSFX(dialogueEndSFX); 
 		}
 		dialogueEnded = true;
