@@ -23,7 +23,7 @@ public class Player : MonoBehaviour {
 //##############################################################################
 //#### External Methods
 //##############################################################################
-	Action<NPC> startConversation;
+	
 
 
 	/// <summary>
@@ -31,7 +31,7 @@ public class Player : MonoBehaviour {
 	/// </summary>
 	void Awake()
 	{
-		getExternalMethods();
+		
 		body = GetComponent<Rigidbody2D>();
 		boxCollider = GetComponent<BoxCollider2D>();
 		animator = GetComponent<Animator>();
@@ -39,20 +39,20 @@ public class Player : MonoBehaviour {
 		
 	}
 
-	void getExternalMethods()
+	void loadExternalMethods()
 	{
-		startConversation = Game.startConversation;
+		
 		
 	}
 
 	// Use this for initialization
 	void Start () 
 	{
-
+		loadExternalMethods();
 	}
 	
 
-	void FixedUpdate() //cada  frame
+	void FixedUpdate() 
 	{
 		inputCheck();
 
@@ -137,24 +137,20 @@ public class Player : MonoBehaviour {
 			// 	print(hit.distance);
 			// 	print(hit.point);
 			// }
-			NPC npc = collidesWithNPC(hit);
-			if(npc)startConversation(npc);
-			//Player.startConversation() ====  Game.HUD.startConversation();
+			activateIfActivable(hit);
+			
 
 			
 			
 		}
 	}
 
-	NPC collidesWithNPC(RaycastHit2D hit)
+	void activateIfActivable(RaycastHit2D hit)
 	{
-		if(hit && hit.transform.tag =="NPC")
+		if(hit.transform.GetComponent<Activable>() is Activable)
 		{
-
-			NPC npc = hit.transform.GetComponent<NPC>();
-			return npc;
+			hit.transform.GetComponent<Activable>().activate();
 		}
-		else return null;
 	}
 
 	void move()

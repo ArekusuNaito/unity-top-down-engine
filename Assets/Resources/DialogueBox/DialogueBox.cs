@@ -34,11 +34,13 @@ public class DialogueBox : MonoBehaviour {
 //#### External Methods
 //##############################################################################
 	Action<AudioClip> playSFX;
+	Action endConversation;
 
 
-	void getExternalMethods()
+	void loadExternalMethods()
 	{
 		playSFX = Game.Sound.playSFX;
+		endConversation = Game.Event.endConversation;
 	}
 	/// <summary>
 	/// Awake is called when the script instance is being loaded.
@@ -46,7 +48,7 @@ public class DialogueBox : MonoBehaviour {
 	void Awake()
 	{
 		//Get components
-		getExternalMethods();
+		loadExternalMethods();
 		dialogueUI = GetComponentInChildren<Text>();
 		dialogueUI.font = font;
 		lookForImageComponents();
@@ -170,7 +172,7 @@ public class DialogueBox : MonoBehaviour {
 			{
 
 				playSFX(conversationEndSFX);
-				Game.endConversation();
+				endConversation();
 			}
 		}
 		//Cancel Button
