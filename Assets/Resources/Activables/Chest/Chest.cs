@@ -50,7 +50,6 @@ public class Chest : MonoBehaviour,Activable
 		spriteRenderer.sprite = sprite;
 	}
 
-
     // Use this for initialization
     void Start () 
 	{
@@ -63,7 +62,8 @@ public class Chest : MonoBehaviour,Activable
 	}
 
 	// Update is called once per frame
-	void Update () {
+	void Update () 
+	{
 		
 	}
 }

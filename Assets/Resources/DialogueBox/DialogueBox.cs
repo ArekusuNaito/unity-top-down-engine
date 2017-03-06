@@ -15,6 +15,7 @@ public class DialogueBox : MonoBehaviour {
 	public int letterSFXInterval=1;//How many letters does we skip to play a sound
 	int skipLetterCount=0;
 	public string [] dialogues;
+	public Action endConversationCallback;
 	// public JSONNode dialogues;
 
 	//Private
@@ -34,7 +35,7 @@ public class DialogueBox : MonoBehaviour {
 //#### External Methods
 //##############################################################################
 	Action<AudioClip> playSFX;
-	Action endConversation;
+	Action<Action> endConversation;
 
 
 	void loadExternalMethods()
@@ -160,7 +161,6 @@ public class DialogueBox : MonoBehaviour {
 			
 			if(dialogueEnded && !conversationEnded)
 			{
-				print("next dialogue");
 				cursor.enabled=false;
 				playSFX(dialogueEndSFX);
 				letterIndex=0;
@@ -172,7 +172,7 @@ public class DialogueBox : MonoBehaviour {
 			else if(conversationEnded)
 			{
 				playSFX(conversationEndSFX);
-				endConversation();
+				endConversation(endConversationCallback);
 			}
 		}
 		//Cancel Button
