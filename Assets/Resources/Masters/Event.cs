@@ -1,9 +1,11 @@
 ﻿using UnityEngine;
 using SimpleJSON;
 using System;
+using System.Collections;
 
 public class Event : MonoBehaviour 
 {
+	Player player;
 	//Dialogue Related
 	DialogueBox dialogueBox;
 	bool onConversation=false;
@@ -12,8 +14,10 @@ public class Event : MonoBehaviour
 //##############################################################################
 //#### External Methods
 //##############################################################################
-	Func<string[],DialogueBox> createDialogueBox;
+	Func<string[],Action,DialogueBox> createDialogueBox;
 	Action<DialogueBox> destroyDialogueBox;
+	Action<Item> addToInventory;
+	Action<AudioClip> playSFX;
 //##############################################################################
 //#### Public Events
 //##############################################################################
@@ -23,19 +27,45 @@ public class Event : MonoBehaviour
 		
 		if(!onConversation)
 		{
+			disablePlayer();
 			onConversation=true;
 			// conversations[conversationKey]["dialogues"];
 			JSONNode node = conversations[npc.conversationKey]["dialogues"]; //conv.tanooki.conversation
 			string[] currentDialogues = this.JSONNodeToStringArray(node);
 
 			if(dialogueBox!=null)destroyDialogueBox(dialogueBox);
-			else dialogueBox = createDialogueBox(currentDialogues);
+			else dialogueBox = createDialogueBox(currentDialogues,null);
 		}
 	}
 
-	public void endConversation()
+	public IEnumerator openChest(Chest chest)
 	{
+		disablePlayer();
+		chest.changeToOpenSprite();
+		addToInventory(chest.item);
+		playSFX(chest.openSFX);
+		yield return new WaitForSeconds(chest.openSFX.length);
+		playSFX(chest.jingleSFX);
+		GameObject itemGet = chest.spawnItem();
+		yield return new WaitForSeconds(0.5f);
+		displayMessage("You found the Silver key!",()=> Destroy(itemGet));
+		
+	}
+
+	public void displayMessage(string message,Action callback)
+	{
+		disablePlayer();
+		onConversation=true;
+		if(dialogueBox!=null)destroyDialogueBox(dialogueBox);
+		else dialogueBox = createDialogueBox(new string[]{message},callback);
+
+	}
+
+	public void endConversation(Action callback)
+	{
+		if(callback!=null)callback();
 		onConversation=false;
+		enablePlayer();
 		destroyDialogueBox(this.dialogueBox);
 	}
 	
@@ -43,7 +73,15 @@ public class Event : MonoBehaviour
 //#### Private
 //##############################################################################
 
+	void disablePlayer()
+	{
+		player.enabled=false;
+	}
 	
+	void enablePlayer()
+	{
+		player.enabled=true;
+	}
 
 	string [] JSONNodeToStringArray(JSONNode node)
 	{	
@@ -62,6 +100,9 @@ public class Event : MonoBehaviour
 		conversations = Game.conversations;
 		createDialogueBox = Game.HUD.createDialogueBox;
 		destroyDialogueBox = Game.HUD.destroyDialogueBox;
+		addToInventory = Game.Inventory.add;
+		playSFX = Game.Sound.playSFX;
+		player = Game.player;
 	}
 
 	void Start()

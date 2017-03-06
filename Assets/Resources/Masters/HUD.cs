@@ -1,8 +1,9 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class HUD : MonoBehaviour {
 
-	public DialogueBox createDialogueBox(string [] dialogues)
+	public DialogueBox createDialogueBox(string [] dialogues, Action endConversationCallback = null)
 	{
 
 		GameObject dialogueBoxPrefab = Resources.Load<GameObject>("DialogueBox/DialogueBox");
@@ -10,6 +11,7 @@ public class HUD : MonoBehaviour {
 		DialogueBox dialogueBox = Instantiate(dialogueBoxPrefab,dialogueBoxPrefab.transform.position,Quaternion.identity).GetComponent<DialogueBox>();
 		dialogueBox.transform.SetParent(GameObject.FindGameObjectWithTag("HUD").transform,false);
 		dialogueBox.dialogues=dialogues;
+		dialogueBox.endConversationCallback = endConversationCallback;
 		return dialogueBox;
 	}
 	
