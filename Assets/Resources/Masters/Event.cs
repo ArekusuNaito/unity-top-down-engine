@@ -43,13 +43,12 @@ public class Event : MonoBehaviour
 		disablePlayer();
 		chest.changeToOpenSprite();
 		addToInventory(chest.item);
-		playSFX(chest.openSFX);
-		yield return new WaitForSeconds(chest.openSFX.length);
+		yield return playSFXAndWait(chest.openSFX);
 		playSFX(chest.jingleSFX);
-		GameObject itemGet = chest.spawnItem();
-		yield return new WaitForSeconds(0.5f);
-		displayMessage("You found the Silver key!",()=> Destroy(itemGet));
-		
+		GameObject popupItem = chest.spawnPopupItem();
+		float popupItemFloatTime = getCurrentAnimationLength(popupItem);
+		yield return new WaitForSeconds(popupItemFloatTime);
+		displayMessage("You found the Silver key!",()=> Destroy(popupItem));
 	}
 
 	public void displayMessage(string message,Action callback)
@@ -73,6 +72,13 @@ public class Event : MonoBehaviour
 //#### Private
 //##############################################################################
 
+	IEnumerator playSFXAndWait(AudioClip audioClip)
+	{
+		playSFX(audioClip);
+		// StartCoroutine(waitSeconds(audioClip.length));
+		yield return new WaitForSeconds(audioClip.length);
+	}
+
 	void disablePlayer()
 	{
 		player.enabled=false;
@@ -81,6 +87,11 @@ public class Event : MonoBehaviour
 	void enablePlayer()
 	{
 		player.enabled=true;
+	}
+
+	float getCurrentAnimationLength(GameObject gameObject,int layerIndex=0)
+	{
+		return gameObject.GetComponent<Animator>().GetCurrentAnimatorStateInfo(layerIndex).length;
 	}
 
 	string [] JSONNodeToStringArray(JSONNode node)

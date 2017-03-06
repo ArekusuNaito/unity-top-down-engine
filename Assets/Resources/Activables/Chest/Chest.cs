@@ -29,7 +29,7 @@ public class Chest : MonoBehaviour,Activable
 		spriteRenderer.sprite = openSprite;
 	}
 
-	public GameObject spawnItem()
+	public GameObject spawnPopupItem()
 	{
 		return Instantiate(itemGet,this.transform);
 	}
