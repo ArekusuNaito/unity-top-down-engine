@@ -3,8 +3,20 @@
     {
         "dialogues":
         [
-            "You must find the tanooki statue.",
-            "Or not"
+            "This is the mysterious Tanooki statue. You notice something atop the statue."
         ]
+    },
+    "Tanooki2":
+    {
+        "dialogues":["Just a Tanooki statue."]
+    },
+    "InfoPost":
+    {
+        "dialogues":["Some locals say that the Tanooki statue can give you a very important item."]
+    },
+    "Required1":
+    {
+        "required":["boss1Defeated"],
+        "dialogues":["Someone's lucky, I guess you cheated."]
     }
 }

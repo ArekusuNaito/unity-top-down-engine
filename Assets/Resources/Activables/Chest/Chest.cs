@@ -12,17 +12,19 @@ public class Chest : MonoBehaviour,Activable
 	public string spritesPath = "Activables/Chest/Sprites/";
 	SpriteRenderer spriteRenderer;
 	GameObject itemGet;
+	public bool isClosed=true; 
 
 	//External Methods
 	Func<Chest,IEnumerator> open;
 
 	public void activate()
     {
-
-		StartCoroutine(open(this));
+		if(isClosed)
+		{
+			StartCoroutine(open(this));
+		}
     }
 
-	
 
 	public void changeToOpenSprite()
 	{
@@ -31,7 +33,9 @@ public class Chest : MonoBehaviour,Activable
 
 	public GameObject spawnPopupItem()
 	{
-		return Instantiate(itemGet,this.transform);
+		var popupItem =Instantiate(itemGet,this.transform);
+		popupItem.GetComponent<SpriteRenderer>().sprite = this.item.sprite;
+		return popupItem;
 	}
 
 	void Awake()

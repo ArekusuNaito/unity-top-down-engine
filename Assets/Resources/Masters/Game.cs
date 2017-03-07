@@ -1,6 +1,7 @@
 ﻿using UnityEngine.SceneManagement;
 using UnityEngine;
-using SimpleJSON;
+using System.Collections.Generic;
+using MiniJSON;
 
 public class Game : MonoBehaviour {
 
@@ -9,7 +10,8 @@ public class Game : MonoBehaviour {
 	public static Player player;
 	public static HUD HUD;
 	public static Inventory Inventory;
-	public static JSONNode conversations;
+	public static Dictionary<string,object> conversations;
+	public static Switches Switches;
 
 
 	
@@ -26,8 +28,14 @@ public class Game : MonoBehaviour {
 		Game.Inventory = transform.FindChild("Inventory").GetComponent<Inventory>();
 		Game.HUD = transform.FindChild("HUDMaster").GetComponent<HUD>();
 		Game.Event = transform.FindChild("EventMaster").GetComponent<Event>();
-		Game.conversations = JSON.Parse(jsonData.text);
+		Game.conversations = Json.Deserialize(jsonData.text) as Dictionary<string,object>;
+		Debug.Log(conversations);
+		
+		Game.Switches = new Switches();
+		
 	}
+
+
 
 	void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
 	{

@@ -8,13 +8,14 @@ public class NPC : MonoBehaviour,Activable {
 
     public void activate()
     {
-		talk(this);
+			talk(this);
     }
 	
     // Use this for initialization
-    void Start () {
-		talk = Game.Event.startConversation;
-	}
+    void Start () 
+		{
+			talk = Game.Event.startConversation;
+		}
 	
 	// Update is called once per frame
 	void Update () {

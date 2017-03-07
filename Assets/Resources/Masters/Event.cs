@@ -1,15 +1,17 @@
 ﻿using UnityEngine;
-using SimpleJSON;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Event : MonoBehaviour 
 {
 	Player player;
+	Switches switches;
 	//Dialogue Related
 	DialogueBox dialogueBox;
 	bool onConversation=false;
-	JSONNode conversations;
+	Dictionary<string,object> conversations;
+	// JSONNode conversations;
 
 //##############################################################################
 //#### External Methods
@@ -29,18 +31,23 @@ public class Event : MonoBehaviour
 		{
 			disablePlayer();
 			onConversation=true;
-			// conversations[conversationKey]["dialogues"];
-			JSONNode node = conversations[npc.conversationKey]["dialogues"]; //conv.tanooki.conversation
-			string[] currentDialogues = this.JSONNodeToStringArray(node);
-
+			// JSONNode node = conversations[npc.conversationKey]["dialogues"]; //conv.tanooki.conversation
+			// JSONNode requiredSwitches = conversations[npc.conversationKey]["required"];
+			
+			// if(requiredSwitches.Count>0)
+			// {
+			
+			// }
+			string[] npcDialogues = getDialoguesOf(npc.conversationKey);
 			if(dialogueBox!=null)destroyDialogueBox(dialogueBox);
-			else dialogueBox = createDialogueBox(currentDialogues,null);
+			else dialogueBox = createDialogueBox(npcDialogues,null);
 		}
 	}
 
 	public IEnumerator openChest(Chest chest)
 	{
 		disablePlayer();
+		chest.isClosed=false;
 		chest.changeToOpenSprite();
 		addToInventory(chest.item);
 		yield return playSFXAndWait(chest.openSFX);
@@ -94,31 +101,33 @@ public class Event : MonoBehaviour
 		return gameObject.GetComponent<Animator>().GetCurrentAnimatorStateInfo(layerIndex).length;
 	}
 
-	string [] JSONNodeToStringArray(JSONNode node)
-	{	
-		string [] array = new string[node.Count];
-		
-		for(int index=0;index<node.Count ; index++)
-		{
-			string temp = node[index];
-			array[index] = temp;
-		}
-		return array;
+
+	string[] getDialoguesOf(string conversationKey)
+	{
+		Debug.Log("erre");
+		var conversation = getConversation(conversationKey);
+		var dialoguesListObject = (List<object>)conversation["dialogues"];
+		var dialoguesListString = dialoguesListObject.ConvertAll(dialogue =>dialogue.ToString());
+		return dialoguesListString.ToArray();
+	}
+
+	Dictionary<string,object> getConversation(string conversationKey)
+	{
+		return (Dictionary<string,object>)(Game.conversations[conversationKey]);
 	}
 
 	void loadExternalMethods()
 	{
-		conversations = Game.conversations;
 		createDialogueBox = Game.HUD.createDialogueBox;
 		destroyDialogueBox = Game.HUD.destroyDialogueBox;
 		addToInventory = Game.Inventory.add;
 		playSFX = Game.Sound.playSFX;
 		player = Game.player;
+		this.switches = Game.Switches;
 	}
 
 	void Start()
 	{
-		
 		loadExternalMethods();
 	}
 
