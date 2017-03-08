@@ -35,11 +35,11 @@ public class Event : MonoBehaviour
 				if(requirementsMet(conversationKey))
 				{
 					string[] dialogues = getDialoguesOf(conversationKey);
+					addRewardsToInventory(conversationKey);
 					displayMessage(dialogues);
 				}else
 				{
 					Debug.LogError(conversationKey+" doesn't fulfill the requirements");
-					// startConversation("Redirect3");
 					startConversation(conversations,conversationIndex+1);
 				} 
 			}
@@ -134,6 +134,23 @@ public class Event : MonoBehaviour
 		return conversation.ContainsKey("requirements");
 	}
 
+	void addRewardsToInventory(string conversationKey)
+	{
+		var conversation = getConversation(conversationKey);
+		if(conversation.ContainsKey("rewards"))
+		{
+			var rewards = (Dictionary<string,object>)conversation["rewards"];
+			var items = (List<object>)rewards["items"];
+			items.ForEach((item)=>
+			{
+				var newItem = item as Dictionary<string,object>; //Creating an new one here because it must be casted, lambda's parameters doesn't let me cast it 
+				var itemName = (string)newItem["name"];
+				var itemQuantity = Convert.ToInt32(newItem["quantity"]);
+				addToInventory(new Item{name=itemName,quantity=itemQuantity});
+			});
+		}
+	}
+
 	bool requirementsMet(string conversationKey)
 	{
 
@@ -180,7 +197,6 @@ public class Event : MonoBehaviour
 
 	string[] getDialoguesOf(string conversationKey)
 	{
-		Debug.Log("erre");
 		var conversation = getConversation(conversationKey);
 		var dialoguesListObject = (List<object>)conversation["dialogues"];
 		var dialoguesListString = dialoguesListObject.ConvertAll(dialogue =>dialogue.ToString());
