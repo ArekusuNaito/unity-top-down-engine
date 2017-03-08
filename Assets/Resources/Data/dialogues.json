@@ -22,13 +22,17 @@
         },
         "dialogues":["Nice, you have both Red and Blue Gems"]
     },
-    "Required2":
+    "QuestRedGem":
     {
         "requirements":
         {
             "items":["Red Gem"]
         },
-        "dialogues":["Only Red Gem? Fine..."]
+        "rewards":
+        {
+            "items":[{"name":"Shuriken","quantity":5}]
+        },
+        "dialogues":["Only Red Gem? Here's 5 shurikens."]
     },
     "NoRequirements":
     {
