@@ -13,7 +13,7 @@ public class ImportNPCTile : Tiled2Unity.ICustomTiledImporter
             spriteRenderer.sortingOrder = 4;
 
 			NPC npc = gameObject.AddComponent<NPC>();
-            npc.conversationKey = customProperties["conversation"];
+            // npc.conversationKey = customProperties["conversation"];
 			//You can use the customProperties here for further editing.
         }
     }

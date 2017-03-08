@@ -29,10 +29,17 @@ public class Game : MonoBehaviour {
 		Game.HUD = transform.FindChild("HUDMaster").GetComponent<HUD>();
 		Game.Event = transform.FindChild("EventMaster").GetComponent<Event>();
 		Game.conversations = Json.Deserialize(jsonData.text) as Dictionary<string,object>;
-		Debug.Log(conversations);
-		
 		Game.Switches = new Switches();
-		
+		//Tests
+		//Add some items to the inventory
+		var item1 = new Item();
+		item1.name = "Red Gem";
+		var item2 = new Item();
+		item2.name = "Blue Gem";
+		Game.Inventory.add(item1);
+		// Game.Inventory.add(item2);
+		//Turn on some switches
+		Game.Switches.turnOn("boss1Defeated");
 	}
 
 

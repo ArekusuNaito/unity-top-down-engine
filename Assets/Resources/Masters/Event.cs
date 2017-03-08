@@ -6,7 +6,6 @@ using System.Collections.Generic;
 public class Event : MonoBehaviour 
 {
 	Player player;
-	Switches switches;
 	//Dialogue Related
 	DialogueBox dialogueBox;
 	bool onConversation=false;
@@ -19,28 +18,40 @@ public class Event : MonoBehaviour
 	Func<string[],Action,DialogueBox> createDialogueBox;
 	Action<DialogueBox> destroyDialogueBox;
 	Action<Item> addToInventory;
+	Func<string,bool> inventoryHas;
 	Action<AudioClip> playSFX;
+	Func<string,bool> isSwitchOff;
 //##############################################################################
 //#### Public Events
 //##############################################################################
 
-	public void startConversation(NPC npc)
+	public void startConversation(List<string> conversations,int conversationIndex=0)
 	{
-		
+		string conversationKey = conversations[conversationIndex];
 		if(!onConversation)
-		{
-			disablePlayer();
-			onConversation=true;
-			// JSONNode node = conversations[npc.conversationKey]["dialogues"]; //conv.tanooki.conversation
-			// JSONNode requiredSwitches = conversations[npc.conversationKey]["required"];
-			
-			// if(requiredSwitches.Count>0)
-			// {
-			
-			// }
-			string[] npcDialogues = getDialoguesOf(npc.conversationKey);
-			if(dialogueBox!=null)destroyDialogueBox(dialogueBox);
-			else dialogueBox = createDialogueBox(npcDialogues,null);
+		{	
+			if(hasRequirements(conversationKey))
+			{
+				if(requirementsMet(conversationKey))
+				{
+					string[] dialogues = getDialoguesOf(conversationKey);
+					displayMessage(dialogues);
+				}else
+				{
+					Debug.LogError(conversationKey+" doesn't fulfill the requirements");
+					// startConversation("Redirect3");
+					startConversation(conversations,conversationIndex+1);
+				} 
+			}
+			else
+			{
+
+				Debug.LogError(conversationKey+" doesn't have any requirements");
+				string[] dialogues = getDialoguesOf(conversationKey);
+				displayMessage(dialogues);
+				// displayMessage("Whoops, requirements not met",null);
+				// startConversation(new NPC{conversationKey=""})
+			} 
 		}
 	}
 
@@ -58,14 +69,8 @@ public class Event : MonoBehaviour
 		displayMessage("You found the Silver key!",()=> Destroy(popupItem));
 	}
 
-	public void displayMessage(string message,Action callback)
-	{
-		disablePlayer();
-		onConversation=true;
-		if(dialogueBox!=null)destroyDialogueBox(dialogueBox);
-		else dialogueBox = createDialogueBox(new string[]{message},callback);
 
-	}
+
 
 	public void endConversation(Action callback)
 	{
@@ -79,10 +84,32 @@ public class Event : MonoBehaviour
 //#### Private
 //##############################################################################
 
+	void displayMessage(string[] dialogues,Action callback=null)
+	{
+		if(!onConversation)
+		{
+			disablePlayer();
+			onConversation=true;
+			if(dialogueBox!=null)destroyDialogueBox(dialogueBox);
+			else dialogueBox = createDialogueBox(dialogues,null);
+		}else Debug.LogError("You are already on a conversation");
+	}
+
+	void displayMessage(string message,Action callback=null)
+	{
+		if(!onConversation)
+		{
+			disablePlayer();
+			onConversation=true;
+			if(dialogueBox!=null)destroyDialogueBox(dialogueBox);
+			else dialogueBox = createDialogueBox(new string[]{message},callback);
+		}else Debug.LogError("You are already on a conversation");
+
+	}
+
 	IEnumerator playSFXAndWait(AudioClip audioClip)
 	{
 		playSFX(audioClip);
-		// StartCoroutine(waitSeconds(audioClip.length));
 		yield return new WaitForSeconds(audioClip.length);
 	}
 
@@ -100,6 +127,55 @@ public class Event : MonoBehaviour
 	{
 		return gameObject.GetComponent<Animator>().GetCurrentAnimatorStateInfo(layerIndex).length;
 	}
+
+	bool hasRequirements(string conversationKey)
+	{
+		var conversation = getConversation(conversationKey);
+		return conversation.ContainsKey("requirements");
+	}
+
+	bool requirementsMet(string conversationKey)
+	{
+
+		var conversation = getConversation(conversationKey);
+		if(requiredSwitchesAreOn(conversation) && itemsRequiredOnInventory(conversation) )return true;
+		else return false;
+	}
+
+	bool requiredSwitchesAreOn(Dictionary<string,object> conversation)
+	{
+		var requirements = (Dictionary<string,object>)conversation["requirements"];
+		if(requirements.ContainsKey("switches")) //are game switches required?
+		{
+			var requiredSwitches = (List<object>)requirements["switches"];
+			foreach(var gameSwitch in requiredSwitches)
+			{
+				if(isSwitchOff((string)gameSwitch))
+				{
+					return false; //no need to check more requirements if one is not met
+				}
+			}
+		}
+		return true;
+	}
+
+	bool itemsRequiredOnInventory(Dictionary<string,object> conversation)
+	{
+		var requirements = (Dictionary<string,object>)conversation["requirements"];
+		if(requirements.ContainsKey("items")) //are items required?
+		{
+			var requiredItems = (List<object>)requirements["items"];
+			foreach(var item in requiredItems)
+			{
+				if(!inventoryHas((string)item))
+				{
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+
 
 
 	string[] getDialoguesOf(string conversationKey)
@@ -121,9 +197,10 @@ public class Event : MonoBehaviour
 		createDialogueBox = Game.HUD.createDialogueBox;
 		destroyDialogueBox = Game.HUD.destroyDialogueBox;
 		addToInventory = Game.Inventory.add;
+		isSwitchOff = Game.Switches.isOff;
+		inventoryHas = Game.Inventory.has;
 		playSFX = Game.Sound.playSFX;
 		player = Game.player;
-		this.switches = Game.Switches;
 	}
 
 	void Start()

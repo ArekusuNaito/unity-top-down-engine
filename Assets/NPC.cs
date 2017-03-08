@@ -1,24 +1,21 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class NPC : MonoBehaviour,Activable {
 
-	public string conversationKey;
-	Action<NPC> talk;
+	public List<string> conversations;
+	Action<List<string>,int> talk;
 
     public void activate()
     {
-			talk(this);
+			// talk(conversationKey);
+			talk(conversations,0);
     }
 	
     // Use this for initialization
     void Start () 
-		{
-			talk = Game.Event.startConversation;
-		}
-	
-	// Update is called once per frame
-	void Update () {
-		
+	{
+		talk = Game.Event.startConversation;
 	}
 }

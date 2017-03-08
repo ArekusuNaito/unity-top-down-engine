@@ -16,7 +16,22 @@
     },
     "Required1":
     {
-        "required":["boss1Defeated"],
-        "dialogues":["Someone's lucky, I guess you cheated."]
+        "requirements":
+        {
+            "items":["Red Gem","Blue Gem"]
+        },
+        "dialogues":["Nice, you have both Red and Blue Gems"]
+    },
+    "Required2":
+    {
+        "requirements":
+        {
+            "items":["Red Gem"]
+        },
+        "dialogues":["Only Red Gem? Fine..."]
+    },
+    "NoRequirements":
+    {
+       "dialogues":["You need to find the Red and Blue gems. Quickly."]
     }
 }
