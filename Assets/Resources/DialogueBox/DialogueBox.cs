@@ -8,12 +8,11 @@ public class DialogueBox : MonoBehaviour {
 	//Public
 	public Font font;
 	public AudioClip letterSFX;
-	public AudioClip dialogueEndSFX;
+	public AudioClip nextDialogueSFX;
 	public AudioClip lastDialogueEndSFX;
 	public AudioClip conversationEndSFX;
 	public float lettersBySecond = 0.3f;
 	public int letterSFXInterval=1;//How many letters does we skip to play a sound
-	int skipLetterCount=0;
 	public string [] dialogues;
 	public Action endConversationCallback;
 	// public JSONNode dialogues;
@@ -77,7 +76,6 @@ public class DialogueBox : MonoBehaviour {
 	{
 		loadExternalMethods();
 		dialogue  = dialogues[0]; //take the first dialogue
-		// print("Dialogue Length:"+dialogue.Length);
 		StartCoroutine(drawDialogue());
 		
 	}
@@ -86,40 +84,57 @@ public class DialogueBox : MonoBehaviour {
 	void Update () 
 	{
 		inputCheck();
-		checkIfDialogueEnded();		
 	}
 
 	IEnumerator drawDialogue()
 	{
+		// yield return new WaitForEndOfFrame(); //This way it skips the first OnKeyDown.Z and it won't skip the text
 		
-		for(int drawTimes=0;drawTimes<dialogue.Length;drawTimes++)
+		while(letterIndex<dialogue.Length)
 		{
 			drawNextLetter();
 			yield return new WaitForSecondsRealtime(lettersBySecond); //Realtime allows UI to be drawed normally if we change time.scale
 		}
-		// print(dialogue.Length+" = "+lettersBySecond*dialogue.Length+" : "+Time.time);
+		dialogueEnded=true; //Even if the conversation ended , a dialogue will always end here.
+		dialogueIndex++; //Go to the next dialogue. If it's the last one then the conversation ended.
+		//Check if conversation ended
+		if(dialogueIndex>=dialogues.Length)
+		{
+			onConversationDrawEnd();
+
+		}
+		else //Just the dialogue ended
+		{
+			onDialogueDrawEnd();
+			
+		}
+	}
+
+	void onDialogueDrawEnd()
+	{
+		dialogue=dialogues[dialogueIndex];
+		playCursorAnimation("Next");
+	}
+
+	void onConversationDrawEnd()
+	{
+		playCursorAnimation("Done");
+		playSFX(this.lastDialogueEndSFX);
+		conversationEnded=true;
 	}
 
 	void drawNextLetter()
 	{
 		
-		if(!isSilentCharacter())
-		{
-			//You can go ahead and make some noise, playing the letterSFX
-			skipLetterCount++;
-			if(skipLetterCount>letterSFXInterval)
-			{
-				playSFX(this.letterSFX);
-				skipLetterCount=0;
-			}
-		}
+		dialogueUI.text = dialogue.Substring(0,letterIndex+1);
+		if(!isSilentCharacter() && letterIndex%letterSFXInterval==0)playSFX(this.letterSFX);
 		letterIndex++;
-		dialogueUI.text = dialogue.Substring(0,letterIndex);
 		
 	}
 
 	bool isSilentCharacter()
 	{
+		print(letterIndex);
 		char character = dialogue[letterIndex];
 		if(character==' ' || character=='\n')
 		{
@@ -128,76 +143,41 @@ public class DialogueBox : MonoBehaviour {
 		return false;
 	}
 
-	bool checkIfDialogueEnded()
-	{
-		if(dialogueEnded)return true;
-		if(letterIndex>=dialogue.Length)
-		{
-			onDialogueEnd();
-			return true;
-		}
-		return false;
-	}
-
-	bool checkIfConversationEnded()
-	{
-		if(dialogueIndex>= dialogues.Length-1)
-		{
-			
-			onConversationEnd();
-			return true;
-		}
-		else
-		{
-			return false;
-		}
-	}
 
 	void inputCheck()
 	{
 		//Confirm Button
 		if(Input.GetKeyDown(KeyCode.Z))
 		{
-			
-			if(dialogueEnded && !conversationEnded)
+			if(conversationEnded)
 			{
-				cursor.enabled=false;
-				playSFX(dialogueEndSFX);
-				letterIndex=0;
-				dialogueIndex++;
-				dialogue=dialogues[dialogueIndex];
-				dialogueEnded=false;
-				StartCoroutine(drawDialogue());
-			}
-			else if(conversationEnded)
-			{
-				playSFX(conversationEndSFX);
+				playSFX(this.conversationEndSFX);
 				endConversation(endConversationCallback);
 			}
+			else if(dialogueEnded)
+			{
+				displayNextDialogue();
+			}
 		}
-		//Cancel Button
+		if(Input.GetKeyDown(KeyCode.X))
+		{
+			if(!dialogueEnded)
+			{
+				letterIndex=dialogue.Length-1;
+			}
+		}
+		
 	}
 
-	void onDialogueEnd()
+	void displayNextDialogue()
 	{
-		checkIfConversationEnded();
-		if(conversationEnded)
-		{
-			playCursorAnimation("Done");
-			playSFX(lastDialogueEndSFX); 
-		}
-		else //then we still have dialogues
-		{
-			playCursorAnimation("Next");
-			// SoundMaster.playSFX(dialogueEndSFX); 
-		}
-		dialogueEnded = true;
-	}
-
-	void onConversationEnd()
-	{	
-
-		conversationEnded=true;
+			//Reset this stuff
+			letterIndex=0;
+			cursor.enabled=false;
+			dialogueEnded=false;
+			//Play SFX and restart
+			playSFX(this.nextDialogueSFX);
+			StartCoroutine(drawDialogue());
 	}
 
 

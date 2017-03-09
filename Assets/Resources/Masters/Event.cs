@@ -49,8 +49,6 @@ public class Event : MonoBehaviour
 				Debug.LogError(conversationKey+" doesn't have any requirements");
 				string[] dialogues = getDialoguesOf(conversationKey);
 				displayMessage(dialogues);
-				// displayMessage("Whoops, requirements not met",null);
-				// startConversation(new NPC{conversationKey=""})
 			} 
 		}
 	}
@@ -91,7 +89,7 @@ public class Event : MonoBehaviour
 			disablePlayer();
 			onConversation=true;
 			if(dialogueBox!=null)destroyDialogueBox(dialogueBox);
-			else dialogueBox = createDialogueBox(dialogues,null);
+			else dialogueBox = createDialogueBox(dialogues,callback);
 		}else Debug.LogError("You are already on a conversation");
 	}
 

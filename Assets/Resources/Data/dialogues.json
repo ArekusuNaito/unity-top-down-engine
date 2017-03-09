@@ -32,7 +32,13 @@
         {
             "items":[{"name":"Shuriken","quantity":5}]
         },
-        "dialogues":["Only Red Gem? Here's 5 shurikens."]
+        "dialogues":["Hey there!","Enjoying the fields?"]
+    },
+    "BigDialogue":
+    {
+        "dialogues":[
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed et erat sed lectus luctus tempor sit amet vitae nibh. Quisque condimentum nulla vitae lobortis mattis. Aenean pulvinar dolor est, vel iaculis magna porttitor quis. Proin convallis, urna non condimentum faucibus, purus urna ultrices ex, nec sollicitudin felis ante vel justo."
+        ]
     },
     "NoRequirements":
     {
