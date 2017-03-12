@@ -147,7 +147,7 @@ public class DialogueBox : MonoBehaviour {
 	void inputCheck()
 	{
 		//Confirm Button
-		if(Input.GetKeyDown(KeyCode.Z))
+		if(Input.GetButtonDown("Submit"))
 		{
 			if(conversationEnded)
 			{
@@ -159,7 +159,7 @@ public class DialogueBox : MonoBehaviour {
 				displayNextDialogue();
 			}
 		}
-		if(Input.GetKeyDown(KeyCode.X))
+		if(Input.GetButtonDown("Cancel"))
 		{
 			if(!dialogueEnded)
 			{

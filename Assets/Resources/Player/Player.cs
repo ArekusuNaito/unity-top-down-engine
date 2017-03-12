@@ -114,7 +114,7 @@ public class Player : MonoBehaviour {
 
 	void checkActionInput()
 	{
-		if(Input.GetKeyDown(KeyCode.Z))
+		if(Input.GetButtonDown("Submit"))
 		{
 			Vector2 direction = Vector2.zero;
 			switch(facing)
