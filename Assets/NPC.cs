@@ -10,7 +10,7 @@ public class NPC : MonoBehaviour,Activable {
     public void activate()
     {
 			// talk(conversationKey);
-			talk(conversations,0);
+			talk(conversations,conversations.Count-1);
     }
 	
     // Use this for initialization

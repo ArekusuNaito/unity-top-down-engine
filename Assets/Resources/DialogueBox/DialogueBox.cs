@@ -134,7 +134,6 @@ public class DialogueBox : MonoBehaviour {
 
 	bool isSilentCharacter()
 	{
-		print(letterIndex);
 		char character = dialogue[letterIndex];
 		if(character==' ' || character=='\n')
 		{

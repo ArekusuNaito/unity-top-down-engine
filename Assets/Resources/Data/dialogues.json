@@ -14,25 +14,150 @@
     {
         "dialogues":["Some locals say that the Tanooki statue can give you a very important item."]
     },
-    "Required1":
+    "Alpha1":
     {
-        "requirements":
+        "dialogues":["Hey. I'm looking for some Beta Food, go get it."],
+        "rewards":
         {
-            "items":["Red Gem","Blue Gem"]
-        },
-        "dialogues":["Nice, you have both Red and Blue Gems"]
+            "switches":["AlphaNeedsBeta"]
+        }
     },
-    "QuestRedGem":
+    "Alpha2":
     {
         "requirements":
         {
-            "items":["Red Gem"]
+            "switches":["AlphaNeedsBeta"]
+        },
+        "dialogues":["Go with Beta, please."]
+    },
+    "Alpha3":
+    {
+        "requirements":
+        {
+            "items":["Beta Food"]
+        },
+        "rewards":{
+            "switches":["AlphaNeedsGamma"]
+        },
+        "dialogues":["Wow. Beta Food. Nice, can you get me some Gamma Food?"]
+    },
+    "Alpha4":
+    {
+        "requirements":
+        {
+            "switches":["AlphaNeedsGamma"]
+        },
+        "dialogues":["Remember to go with Gamma."]
+    },
+    "Alpha5":
+    {
+        "requirements":
+        {
+            "items":["Gamma Food"]
+        },
+        "rewards":{
+            "switches":["AlphaNeedsDelta"]
+        },
+        "dialogues":["Great! You brought the Gamma Food. Can you please get some Delta food now?"]
+    },
+    "Alpha6":
+    {
+        "requirements":
+        {
+            "switches":["AlphaNeedsDelta"]
+        },
+        "dialogues":["Just go with Delta, it's the last thing to do."]
+    },
+    "Alpha7":
+    {
+        "requirements":
+        {
+            "items":["Delta Food"]
+        },
+        "rewards":{
+            "switches":["AlphaQuestComplete"]
+        },
+        "dialogues":["DELTA FOOD! Great! Thank you! We are done here."]
+    },
+    "Alpha8":
+    {
+        "requirements":
+        {
+            "switches":["AlphaQuestComplete"]
+        },
+        "dialogues":["You completed my quest, leave... now."]
+    },
+    "Beta1":
+    {
+        "dialogues":["I'm Beta"]
+    },
+    "Beta2":
+    {
+        "requirements":
+        {
+            "switches":["AlphaNeedsBeta"]
         },
         "rewards":
         {
-            "items":[{"name":"Shuriken","quantity":5}]
+            "items":[{"name":"Beta Food","quantity":1}]
         },
-        "dialogues":["Hey there!","Enjoying the fields?"]
+        "removes":
+        {
+            "switches":["AlphaNeedsBeta"]
+        },
+        "dialogues":["Alpha sent you? Here's some Beta Food"]
+    },
+    "Gamma1":
+    {
+        "dialogues":["I'm Gamma"]
+    },
+    "Gamma2":
+    {
+        "requirements":
+        {
+            "switches":["AlphaNeedsGamma"]
+        },
+        "rewards":
+        {
+            "items":[{"name":"Gamma Food","quantity":1}]
+        },
+        "removes":
+        {
+            "switches":["AlphaNeedsGamma"]
+        },
+        "dialogues":["Here's some Gamma Food."]
+    },
+    "Delta1":
+    {
+        "dialogues":["I'm Delta"]
+    },
+    "Delta2":
+    {
+        "requirements":
+        {
+            "switches":["AlphaNeedsDelta"]
+        },
+        "rewards":
+        {
+            "items":[{"name":"Delta Food","quantity":1}]
+        },
+        "removes":
+        {
+            "switches":["AlphaNeedsDelta"]
+        },
+        "dialogues":["I guess it's the last thing Alpha asked, right? Here's some Delta food."]
+    },
+    "Omega1":
+    {
+        "dialogues":["..."]
+    },
+    "Omega2":
+    {
+        "requirements":
+        {
+            "switches":["AlphaQuestComplete"]
+        },
+        "dialogues":["I'm glad you helped Alpha."]
     },
     "BigDialogue":
     {

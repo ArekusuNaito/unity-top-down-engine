@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="left-up" width="9" height="7" tilewidth="16" tileheight="16" nextobjectid="7">
+ <tileset firstgid="1" name="tileset" tilewidth="16" tileheight="16" tilecount="1120" columns="28">
+  <image source="../../../../Graphics/superpowers-asset-packs-master/ninja-adventure/background-elements/tileset.png" width="448" height="640"/>
+ </tileset>
+ <layer name="Floor" width="9" height="7">
+  <data encoding="csv">
+332,332,332,332,332,332,332,332,332,
+332,332,332,332,332,332,332,332,332,
+332,332,332,332,332,332,332,332,332,
+332,332,332,332,332,332,332,332,332,
+332,332,332,332,332,332,332,332,332,
+332,332,332,332,332,332,332,332,332,
+332,332,332,332,332,332,332,332,332
+</data>
+ </layer>
+ <layer name="Details" width="9" height="7">
+  <data encoding="csv">
+0,0,0,1,2,3,4,0,0,
+118,119,120,29,30,31,32,0,0,
+146,147,148,57,58,59,60,0,0,
+0,0,0,0,235,0,0,175,176,
+0,812,0,0,0,0,0,203,204,
+0,0,0,0,0,0,784,811,783,
+0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <objectgroup name="Events">
+  <object id="1" name="Omega" x="64" y="48" width="16" height="16">
+   <properties>
+    <property name="add" value="NPC"/>
+   </properties>
+  </object>
+  <object id="2" name="Alpha" x="16" y="64" width="16" height="16">
+   <properties>
+    <property name="add" value="NPC"/>
+   </properties>
+  </object>
+  <object id="3" name="Beta" x="96" y="80" width="16" height="16">
+   <properties>
+    <property name="add" value="NPC"/>
+   </properties>
+  </object>
+  <object id="4" name="Gamma" x="112" y="80" width="16" height="16">
+   <properties>
+    <property name="add" value="NPC"/>
+   </properties>
+  </object>
+  <object id="5" name="Delta" x="128" y="80" width="16" height="16">
+   <properties>
+    <property name="add" value="NPC"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>

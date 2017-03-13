@@ -21,6 +21,8 @@ public class Event : MonoBehaviour
 	Func<string,bool> inventoryHas;
 	Action<AudioClip> playSFX;
 	Func<string,bool> isSwitchOff;
+	Action<string> turnSwitchOn;
+	Action<string> turnSwitchOff;
 //##############################################################################
 //#### Public Events
 //##############################################################################
@@ -36,17 +38,22 @@ public class Event : MonoBehaviour
 				{
 					string[] dialogues = getDialoguesOf(conversationKey);
 					addRewardsToInventory(conversationKey);
+					turnSwitchesOn(conversationKey);
+					turnSwitchesOff(conversationKey);
 					displayMessage(dialogues);
 				}else
 				{
-					Debug.LogError(conversationKey+" doesn't fulfill the requirements");
-					startConversation(conversations,conversationIndex+1);
+					// Debug.LogError(conversationKey+" doesn't fulfill the requirements");
+					startConversation(conversations,conversationIndex-1); //-1, we are going from end to start
 				} 
 			}
 			else
 			{
 
-				Debug.LogError(conversationKey+" doesn't have any requirements");
+				// Debug.LogError(conversationKey+" doesn't have any requirements");
+				addRewardsToInventory(conversationKey);
+				turnSwitchesOn(conversationKey);
+				turnSwitchesOff(conversationKey);
 				string[] dialogues = getDialoguesOf(conversationKey);
 				displayMessage(dialogues);
 			} 
@@ -138,14 +145,53 @@ public class Event : MonoBehaviour
 		if(conversation.ContainsKey("rewards"))
 		{
 			var rewards = (Dictionary<string,object>)conversation["rewards"];
-			var items = (List<object>)rewards["items"];
-			items.ForEach((item)=>
+			if(rewards.ContainsKey("items"))
 			{
-				var newItem = item as Dictionary<string,object>; //Creating an new one here because it must be casted, lambda's parameters doesn't let me cast it 
-				var itemName = (string)newItem["name"];
-				var itemQuantity = Convert.ToInt32(newItem["quantity"]);
-				addToInventory(new Item{name=itemName,quantity=itemQuantity});
-			});
+				var items = (List<object>)rewards["items"];
+				items.ForEach((item)=>
+				{
+					var newItem = item as Dictionary<string,object>; //Creating an new one here because it must be casted, lambda's parameters doesn't let me cast it 
+					var itemName = (string)newItem["name"];
+					var itemQuantity = Convert.ToInt32(newItem["quantity"]);
+					addToInventory(new Item{name=itemName,quantity=itemQuantity});
+				});
+			}
+
+		}
+	}
+
+	void turnSwitchesOn(string conversationKey)
+	{
+		var conversation = getConversation(conversationKey);
+		if(conversation.ContainsKey("rewards"))
+		{
+			var rewards = (Dictionary<string,object>)conversation["rewards"];
+			if(rewards.ContainsKey("switches"))
+			{
+				var switches = (List<object>)rewards["switches"];
+				switches.ForEach((theSwitch)=>
+				{
+					var switchName = (string)theSwitch;	
+					turnSwitchOn(switchName);
+				});
+			}
+		}
+	}
+	void turnSwitchesOff(string conversationKey)
+	{
+		var conversation = getConversation(conversationKey);
+		if(conversation.ContainsKey("removes"))
+		{
+			var removes = (Dictionary<string,object>)conversation["removes"];
+			if(removes.ContainsKey("switches"))
+			{
+				var switches = (List<object>)removes["switches"];
+				switches.ForEach((theSwitch)=>
+				{
+					var switchName = (string)theSwitch;	
+					turnSwitchOff(switchName);
+				});
+			}
 		}
 	}
 
@@ -212,6 +258,8 @@ public class Event : MonoBehaviour
 		destroyDialogueBox = Game.HUD.destroyDialogueBox;
 		addToInventory = Game.Inventory.add;
 		isSwitchOff = Game.Switches.isOff;
+		turnSwitchOn = Game.Switches.turnOn;
+		turnSwitchOff = Game.Switches.turnOff;
 		inventoryHas = Game.Inventory.has;
 		playSFX = Game.Sound.playSFX;
 		player = Game.player;

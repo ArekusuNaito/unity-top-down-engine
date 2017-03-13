@@ -10,6 +10,10 @@ public class Switches : Dictionary<string,object>
 		//This is the list of our game switches. Initialized as false.
 		addFalse("boss1Defeated");
 		addFalse("redGemGet");
+		addFalse("AlphaNeedsBeta");
+		addFalse("AlphaNeedsGamma");
+		addFalse("AlphaNeedsDelta");
+		addFalse("AlphaQuestComplete");
 	}
 
 	void addFalse(string switchName)
