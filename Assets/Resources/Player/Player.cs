@@ -10,15 +10,20 @@ public class Player : MonoBehaviour {
 		public const int LEFT = 2;
 		public const int RIGHT = 3;
 	}
+	enum State
+	{
+		IDLE,
+		WALK
+	}
 	Rigidbody2D body;
 	Animator animator;
+	State state;
 	public float speed = 1;
 	Vector2 destination;
 	Vector2 axisInput;
 	Collider2D boxCollider;
-	bool canGetInput = true;
 	int facing=Facing.DOWN;
-	
+	Action processingState;
 
 //##############################################################################
 //#### External Methods
@@ -31,7 +36,8 @@ public class Player : MonoBehaviour {
 	/// </summary>
 	void Awake()
 	{
-		
+		state = State.IDLE;
+		processingState = idleState;
 		body = GetComponent<Rigidbody2D>();
 		boxCollider = GetComponent<BoxCollider2D>();
 		animator = GetComponent<Animator>();
@@ -54,63 +60,98 @@ public class Player : MonoBehaviour {
 
 	void Update() 
 	{
-		inputCheck();
-
-	} 
-
-	void inputCheck()
-	{
+		// inputCheck();
 		axisInput = new Vector2(Input.GetAxisRaw("Horizontal"),Input.GetAxisRaw("Vertical"));
-		// if((Vector2)transform.position == (Vector2)(transform.position)+destination)
-		if(canGetInput)
-		{
-			if(axisInput.y>0)
-			{
-				facing=Facing.UP;
-				if(!collides(Vector2.up))
-				{
-					canGetInput=false;
-					animator.SetFloat("speed",1);
-					destination = (Vector2)transform.position+Vector2.up;
-				}
-			}
-			if(axisInput.y<0)
-			{
-				facing=Facing.DOWN;
-				if(!collides(Vector2.down))
-				{
-					canGetInput=false;
-					animator.SetFloat("speed",1);
-					destination = (Vector2)transform.position+Vector2.down;
-				}
-
-			}
-			if(axisInput.x<0)
-			{
-				facing=Facing.LEFT;
-				if(!collides(Vector2.left))
-				{
-					canGetInput=false;
-					animator.SetFloat("speed",1);
-					destination = (Vector2)transform.position+Vector2.left;
-				}
-
-			}
-			if(axisInput.x>0)
-			{
-				facing=Facing.RIGHT;
-				if(!collides(Vector2.right))
-				{
-					canGetInput=false;
-					animator.SetFloat("speed",1);
-					destination = (Vector2)transform.position+Vector2.right;
-				}	
-			}
-		}
 		checkActionInput();
-		animator.SetInteger("facing",facing);
-		move();
+		processingState();
 	}
+
+	void enterIdleState()
+	{
+		animator.SetFloat("speed",0);
+		state=State.IDLE;
+		processingState = idleState;
+	}
+
+	void enterWalkState(int facing)
+	{
+		Vector2 facingVector = Vector2.zero;
+		switch(facing)
+		{
+			case Facing.UP: facingVector = Vector2.up; break;
+			case Facing.DOWN: facingVector = Vector2.down; break;
+			case Facing.LEFT: facingVector = Vector2.left; break;
+			case Facing.RIGHT: facingVector = Vector2.right; break;
+		}
+		this.facing = facing;
+		animator.SetInteger("facing",facing);
+		destination = (Vector2)(this.transform.position)+facingVector;
+		animator.SetFloat("speed",1);
+		state = State.WALK;
+		processingState = walkState;
+	}
+
+	
+
+	void walkState()
+	{
+			Vector2 p = Vector2.MoveTowards(transform.position,destination, speed);
+			body.MovePosition(p);
+			if((Vector2)this.transform.position == destination )
+			{
+				if(axisInput.x>0)
+				{
+					facing=Facing.RIGHT;
+					animator.SetInteger("facing",facing);
+					if(!collides(Vector2.right))destination = (Vector2)(this.transform.position)+Vector2.right;
+				}
+				if(axisInput.x<0 )
+				{
+					facing=Facing.LEFT;
+					animator.SetInteger("facing",facing);
+					if(!collides(Vector2.left))destination = (Vector2)(this.transform.position)+Vector2.left;
+				}
+				if(axisInput.y>0 )
+				{
+					facing=Facing.UP;
+					animator.SetInteger("facing",facing);
+					if(!collides(Vector2.up))destination = (Vector2)(this.transform.position)+Vector2.up;
+				}
+				if(axisInput.y<0 )
+				{
+					facing=Facing.DOWN;
+					animator.SetInteger("facing",facing);
+					if(!collides(Vector2.down))destination = (Vector2)(this.transform.position)+Vector2.down;
+				}
+				if(axisInput.x ==0 && axisInput.y == 0)
+				{
+					enterIdleState();
+				}
+			}
+	}
+
+	
+
+	void idleState()
+	{
+		if(axisInput.x>0 && !collides(Vector2.right))
+			{
+				enterWalkState(Facing.RIGHT);	
+			}
+			if(axisInput.x<0 && !collides(Vector2.left))
+			{
+				enterWalkState(Facing.LEFT);
+			}
+			if(axisInput.y>0 && !collides(Vector2.up))
+			{
+				enterWalkState(Facing.UP);				
+			}
+			if(axisInput.y<0 && !collides(Vector2.down))
+			{
+				enterWalkState(Facing.DOWN);
+			}
+	}
+
 
 	void checkActionInput()
 	{
@@ -137,11 +178,7 @@ public class Player : MonoBehaviour {
 			// 	print(hit.distance);
 			// 	print(hit.point);
 			// }
-			activateIfActivable(hit);
-			
-
-			
-			
+			activateIfActivable(hit);	
 		}
 	}
 
@@ -151,21 +188,6 @@ public class Player : MonoBehaviour {
 		{
 			hit.transform.GetComponent<Activable>().activate();
 		}
-	}
-
-	void move()
-	{
-		
-		Vector2 p = Vector2.MoveTowards(transform.position,destination, speed);
-		if((Vector2)transform.position == destination)
-		{
-			if(axisInput.x==0 && (facing==Facing.LEFT || facing == Facing.RIGHT))animator.SetFloat("speed",0);
-			if(axisInput.y==0 && (facing==Facing.UP || facing == Facing.DOWN))animator.SetFloat("speed",0);
-			
-			// if(axisInput.x == 0 || axisInput.y == 0)animator.SetFloat("speed",0);
-			canGetInput=true;
-		}
-    	body.MovePosition(p);
 	}
 
 	bool collides(Vector2 direction)
